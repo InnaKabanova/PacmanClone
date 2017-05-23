@@ -1,0 +1,36 @@
+<RCC>
+    <qresource prefix="/QMLs">
+        <file>QMLs/CustomButton.qml</file>
+        <file>QMLs/main.qml</file>
+        <file>QMLs/NewGameScreen.qml</file>
+        <file>QMLs/GameOverScreen.qml</file>
+        <file>QMLs/GameField.qml</file>
+        <file>QMLs/Pacman.qml</file>
+        <file>QMLs/Tile.qml</file>
+        <file>QMLs/qmldir</file>
+        <file>QMLs/WallBlock.qml</file>
+        <file>QMLs/HouseEntry.qml</file>
+        <file>QMLs/Pellet.qml</file>
+        <file>QMLs/Energizer.qml</file>
+        <file>QMLs/InfoBar.qml</file>
+        <file>QMLs/Pinky.qml</file>
+        <file>QMLs/Inky.qml</file>
+        <file>QMLs/Blinky.qml</file>
+        <file>QMLs/Clyde.qml</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>images/background.png</file>
+        <file>images/ghost-blinky.png</file>
+        <file>images/bonus-fruit-cherry.png</file>
+        <file>images/ghost-clyde.png</file>
+        <file>images/pellet-energizer.png</file>
+        <file>images/pellet-regular.png</file>
+        <file>images/ghost-inky.png</file>
+        <file>images/logo.png</file>
+        <file>images/ghost-pinky.png</file>
+        <file>images/wall-block.png</file>
+        <file>images/wall-exit.png</file>
+        <file>images/game-over.gif</file>
+        <file>images/pacman.gif</file>
+    </qresource>
+</RCC>
