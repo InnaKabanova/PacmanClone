@@ -6,13 +6,16 @@
 
 //#define GHOST_DEBUG
 //#define MOVEMENT_DEBUG
+#define TARGET_DEBUG
 
 using std::shared_ptr;
 using std::make_unique;
 using std::stack;
 
 Ghost::Ghost(unsigned int use_init_x, unsigned int use_init_y, const char* use_qml_path, 
-             unsigned int use_time_to_leave):
+             unsigned int use_time_to_leave,
+             unsigned int use_s_x_1, unsigned int use_s_y_1,
+             unsigned int use_s_x_2, unsigned int use_s_y_2):
              engine(nullptr),
              init_x(use_init_x),
              init_y(use_init_y),
@@ -24,7 +27,11 @@ Ghost::Ghost(unsigned int use_init_x, unsigned int use_init_y, const char* use_q
              x(init_x),
              y(init_y),
              direction(GhostDirection::G_UP),
-             curr_mode(Mode::SCATTER)
+             curr_mode(Mode::SCATTER),
+             scatter_x_1(use_s_x_1),
+             scatter_y_1(use_s_y_1),
+             scatter_x_2(use_s_x_2),
+             scatter_y_2(use_s_y_2)
 {
     connect(&move_timer, SIGNAL(timeout()), this, SLOT(move()));
 
@@ -65,6 +72,12 @@ void Ghost::set_state_second_level()
 {
     // This method must be redefined in the derived class
     return;
+}
+
+const char* Ghost::get_name()
+{
+    // This method must be redefined in the derived class
+    return "Ghost";
 }
 
 void Ghost::show()
@@ -116,7 +129,7 @@ void Ghost::move()
     qDebug() << "'GHOST::move'";
     #endif
 
-    // If ghost is in the house...
+    // If ghost is in the house...(the game or new try has just started)
     if((x == 8 && y == 9) ||
        (x == 9 && y == 9) ||
        (x == 10 && y == 9))
@@ -127,56 +140,45 @@ void Ghost::move()
     }
 
     // If ghost is out at the game field:
-    get_trajectory();
-    make_step();
-    bool collided = detect_collision_with_pacman();
-    if(collided == true)
-        return;
-}
-
-void Ghost::get_trajectory()
-{
-    #ifdef MOVEMENT_DEBUG
-    qDebug() << "'GHOST::get_trajectory' for";
-    #endif
-
-    if(curr_trajectory.size() != 0)
-        delete_trajectory();
-
+    delete_trajectory();
     Position source(x, y);
+
     if(curr_mode == Mode::CHASE)
     {
-        #ifdef MOVEMENT_DEBUG
-        qDebug() << "CHASE mode";
-        #endif
-
         Position destination = get_target_chasing();
         RoomManager::get_singleton().get_path(curr_trajectory, source, destination);
+
+        #ifdef TARGET_DEBUG
+        qDebug() << get_name() << ": Target in CHASE mode: " << destination.x << destination.y;
+        #endif
     }
     else if(curr_mode == Mode::SCATTER)
     {
-//        #ifdef MOVEMENT_DEBUG
-//        qDebug() << "SCATTER mode";
-//        #endif
+        // TO DO: make cyclic movement
 
-//        Position destination = get_target_scattering();
-//        RoomManager::get_singleton().get_path(curr_trajectory, source, destination);
-
-        Position destination = get_target_chasing();
+        Position destination = get_target_scattering();
         RoomManager::get_singleton().get_path(curr_trajectory, source, destination);
+
+        #ifdef TARGET_DEBUG
+        qDebug() << get_name() << ": Target in SCATTER mode: " << destination.x << destination.y;
+        #endif
     }
     else if(curr_mode == Mode::FRIGHTENED)
     {
-//        #ifdef MOVEMENT_DEBUG
-//        qDebug() << "FRIGHTENED mode";
-//        #endif
+        // TO DO: make pseudo-random movement
 
-//        Position destination = get_target_frightened();
-//        RoomManager::get_singleton().get_path(curr_trajectory, source, destination);
-
-        Position destination = get_target_chasing();
-        RoomManager::get_singleton().get_path(curr_trajectory, source, destination);
+        #ifdef TARGET_DEBUG
+        qDebug() << get_name() << ": Target in FRIGHTENED mode: ";
+        #endif
     }
+
+    // Make one move:
+    make_step();
+
+    // Check if the ghost collided Pacman:
+    bool collided = detect_collision_with_pacman();
+    if(collided == true)
+        return;    
 }
 
 Position Ghost::get_target_chasing()
@@ -187,13 +189,13 @@ Position Ghost::get_target_chasing()
 
 Position Ghost::get_target_scattering()
 {
-    // This method must be redefined in the derived class
+    // TO DO
     return {0,0};
 }
 
 Position Ghost::get_target_frightened()
 {
-    // This method must be redefined in the derived class
+    // TO DO
     return {0,0};
 }
 
@@ -210,29 +212,32 @@ void Ghost::make_step()
     unsigned int new_x = curr_trajectory.top().x;
     unsigned int new_y = curr_trajectory.top().y;
 
-    // Determine the intermediate position:
-    unsigned int step = constants::TILE_SIZE/2;
-    unsigned int temp_x = new_x * constants::TILE_SIZE - step;
-    unsigned int temp_y = new_y * constants::TILE_SIZE - step;
-
     // Determine the movement direction:
     determine_direction(new_x, new_y);
 
-    // Re-draw the intermediate position:
-    redraw(temp_x, temp_y, direction, false);
+    // Determine the intermediate position
+    // (for smoother movement):
+    unsigned int step = constants::TILE_SIZE/2;
+    if(direction == GhostDirection::G_UP)
+        redraw(new_x * constants::TILE_SIZE, new_y * constants::TILE_SIZE + step, direction, false);
+    else if(direction == GhostDirection::G_DOWN)
+        redraw(new_x * constants::TILE_SIZE, new_y * constants::TILE_SIZE - step, direction, false);
+    else if(direction == GhostDirection::G_LEFT)
+        redraw(new_x * constants::TILE_SIZE + step, new_y * constants::TILE_SIZE, direction, false);
+    else if(direction == GhostDirection::G_RIGHT)
+        redraw(new_x * constants::TILE_SIZE - step, new_y * constants::TILE_SIZE, direction, false);
 
+    // Re-draw the final position:
     x = new_x;
     y = new_y;
     curr_trajectory.pop();
-
-    // Wait a bit:
-    QTimer::singleShot(250, this, SLOT(redraw()));
+    QTimer::singleShot(90, this, SLOT(redraw()));
 }
 
 void Ghost::redraw()
 {
     #ifdef MOVEMENT_DEBUG
-    qDebug() << "'GHOST::redraw': according to the x,y (members') values";
+    qDebug() << "'GHOST::redraw': according to values of the x,y members";
     #endif
 
     quickitem->setProperty("x", x * constants::TILE_SIZE);

@@ -19,7 +19,11 @@ public:
     Ghost(unsigned int use_init_x,
           unsigned int use_init_y,
           const char* use_qml_path,
-          unsigned int use_time_to_leave);
+          unsigned int use_time_to_leave,
+          unsigned int use_s_x_1,
+          unsigned int use_s_y_1,
+          unsigned int use_s_x_2,
+          unsigned int use_s_y_2);
     virtual ~Ghost();
 
     // Functions used by 'GhostManager':
@@ -69,17 +73,28 @@ protected:
     unsigned int curr_mode;
 
     // Helper functions used by 'move()' to compose ghost's movement:
-    virtual void get_trajectory(); // (!! defined in the derived class)
     void make_step();
     bool detect_collision_with_pacman();
     void determine_direction(unsigned int new_x, unsigned int new_y);
 
     // Functions that provide with target tiles for every mode
-    // (must be redefined in the derived classes in accordance with
+    // (can be redefined in the derived classes in accordance with
     // every concrete ghost's personality)
-    virtual Position get_target_chasing();
+    virtual Position get_target_chasing(); // (redefined)
     virtual Position get_target_scattering();
     virtual Position get_target_frightened();
+
+    // Debug function:
+    virtual const char* get_name(); // (redefined)
+
+    unsigned int scatter_x_1;
+    unsigned int scatter_y_1;
+    unsigned int scatter_x_2;
+    unsigned int scatter_y_2;
+
+
+
+
 };
 
 #endif // GHOST_H

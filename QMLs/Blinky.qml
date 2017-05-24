@@ -4,8 +4,7 @@ import "."
 Image
 {
     // Properties constantly updated from C++:
-    // visible: false
-    visible: true
+    visible: false
     x: 0
     y: 0
     property int direction: 0
@@ -19,26 +18,13 @@ Image
         id: blinky_image
         source: "qrc:/images/images/ghost-blinky.png"
         anchors.left: parent.left
-        anchors.leftMargin: -140
+        anchors.leftMargin: 0
     }
 
     onDirectionChanged:
     {
         blinky_image.anchors.leftMargin = direction
     }
-
-    onXChanged:
-    {
-        console.log("x:");
-        console.log(x / 28);
-    }
-
-    onYChanged:
-    {
-        console.log("y:");
-        console.log(y / 28);
-    }
-
 }
 
 

@@ -407,8 +407,8 @@ void RoomManager::get_path(stack<Position>& trajectory, Position& source, Positi
 
 bool RoomManager::is_valid(const Position& position)
 {
-    if(position.x < 0 || position.x > maze_height - 1 ||
-       position.y < 0 || position.y >  maze_width - 1)
+    if(position.x < 0 || position.x > maze_width - 1 ||
+       position.y < 0 || position.y > maze_height - 1)
         return false;
     if(maze[position.y][position.x] == 0 || maze[position.y][position.x] == 2 ||
        maze[position.y][position.x] == 3 || maze[position.y][position.x] == 4)

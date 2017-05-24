@@ -39,12 +39,12 @@ GhostManager::GhostManager()
     // Instantiating ghosts:
     Ghost* blinky_ptr = &(Blinky::get_singleton());
     ghosts.push_back(blinky_ptr);
-//    Ghost* pinky_ptr = &(Pinky::get_singleton());
-//    ghosts.push_back(pinky_ptr);
-//    Ghost* inky_ptr = &(Inky::get_singleton());
-//    ghosts.push_back(inky_ptr);
-//    Ghost* clyde_ptr = &(Clyde::get_singleton());
-//    ghosts.push_back(clyde_ptr);
+    Ghost* pinky_ptr = &(Pinky::get_singleton());
+    ghosts.push_back(pinky_ptr);
+    Ghost* inky_ptr = &(Inky::get_singleton());
+    ghosts.push_back(inky_ptr);
+    Ghost* clyde_ptr = &(Clyde::get_singleton());
+    ghosts.push_back(clyde_ptr);
 
     // Setting the timer ready:
     connect(&wave_timer, SIGNAL(timeout()), this, SLOT(update_timer()));

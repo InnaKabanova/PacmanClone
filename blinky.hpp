@@ -14,15 +14,10 @@ private:
     Blinky(const Blinky&) = delete;
     Blinky& operator=(const Blinky&) = delete;
 
+    virtual const char* get_name();
     virtual void set_state_first_level();
     virtual void set_state_second_level();
-
     virtual Position get_target_chasing();
-    virtual Position get_target_scattering();
-    virtual Position get_target_frightened();
-
-
-
 };
 
 #endif // BLINCKY_H
