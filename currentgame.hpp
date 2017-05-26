@@ -17,6 +17,10 @@ public slots:
     unsigned int get_tilesize();
     // 2. (when 'play game' button is clicked)
     void start_level();
+    // 3. (for 'InfoBar.qml' texts update)
+    unsigned int get_health();
+    unsigned int get_score();
+    unsigned int get_level();
 
     // Function that increments the score during the game:
     void add_score(unsigned int gained);
@@ -28,6 +32,11 @@ signals:
     // Signal to QML that user has passed all the levels or
     // the game is over:
     void passed(int score, bool victory = false);
+
+    // Signals to QML for UI info update:
+    void updateScore(unsigned int new_score);
+    void updateHealth(unsigned int new_health);
+    void updateLevel(unsigned int new_level);
 
 private:
     // Function that returns all the game objects into

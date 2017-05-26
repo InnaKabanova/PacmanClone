@@ -32,5 +32,8 @@
         <file>images/wall-exit.png</file>
         <file>images/game-over.gif</file>
         <file>images/pacman.gif</file>
+        <file>images/health.png</file>
+        <file>images/game-over-3.gif</file>
+        <file>images/game-over-2.gif</file>
     </qresource>
 </RCC>

@@ -10,7 +10,9 @@ Item
     Item {
         id: keys_detector
         focus: true
-        Keys.onPressed:{
+
+        Keys.onPressed:
+        {
            if (event.key === Qt.Key_Left)
            {
                pacman_object.move(180);
@@ -31,12 +33,12 @@ Item
                pacman_object.move(90);
                event.accepted = true;
            }
-           else if(event.key == Qt.Key_Space) // DEBUG_PURPOSES
-           {
-               current_game.start_level();
-               // current_game.try_again();
-               event.accepted = true;
-           }
+//           else if(event.key === Qt.Key_Space) // For debug purposes
+//           {
+//               current_game.start_level();
+//               // current_game.try_again();
+//               event.accepted = true;
+//           }
         }
     }
 }

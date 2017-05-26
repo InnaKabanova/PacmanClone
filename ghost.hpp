@@ -10,7 +10,7 @@
 #include "roommanager.hpp"
 #include "pacman.hpp"
 
-enum Mode{SCATTER, CHASE, FRIGHTENED};
+enum Mode{SCATTER, CHASE, FRIGHTENED, GOING_BACK};
 
 class Ghost: public QObject
 {
@@ -36,15 +36,22 @@ public:
     void show();
     void hide();
 
+    unsigned int get_x();
+    unsigned int get_y();
+
     virtual void set_state_first_level(); // (!! defined in the derived class)
     virtual void set_state_second_level(); // (!! defined in the derived class)
 
 public slots:
-    // 'Main' function of ghost's movement:
+    // 'Main' function that rules ghost's movement:
     void move();
     void leave_the_house();
 
-    // Functions that render Ghost with new position:
+    // Function which returns the ghost back to house when
+    // it is eaten by Pacman:
+    void go_back_to_house();
+
+    // Functions that render ghost on a new position within a window:
     void redraw();
     void redraw(unsigned int use_x, unsigned int use_y, unsigned int use_direction, bool with_scaling);
 
@@ -53,6 +60,8 @@ signals:
     void ate_ghost(); // (if Pacman ate ghost)
 
 protected:
+    const int frightened_speed = 400; // (speed when in 'Frightened' mode)
+
     std::shared_ptr<QQmlApplicationEngine> engine;
     QTimer move_timer;
 
@@ -77,9 +86,9 @@ protected:
     bool detect_collision_with_pacman();
     void determine_direction(unsigned int new_x, unsigned int new_y);
 
-    // Functions that provide with target tiles for every mode
+    // Functions that provide ghost with target tiles for every mode
     // (can be redefined in the derived classes in accordance with
-    // every concrete ghost's personality)
+    // ghost's personality)
     virtual Position get_target_chasing(); // (redefined)
     virtual Position get_target_scattering();
     virtual Position get_target_frightened();
@@ -87,14 +96,13 @@ protected:
     // Debug function:
     virtual const char* get_name(); // (redefined)
 
+    bool upper_corner; // (used for circular movement in 'Scatter' mode)
+    bool reverse; // (used for pseudo-random movement in 'Frightened' mode)
+    unsigned int frightened_direction; // (used for pseudo-random movement in 'Frightened' mode)
     unsigned int scatter_x_1;
     unsigned int scatter_y_1;
     unsigned int scatter_x_2;
     unsigned int scatter_y_2;
-
-
-
-
 };
 
 #endif // GHOST_H

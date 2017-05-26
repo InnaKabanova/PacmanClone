@@ -33,6 +33,7 @@ Window
             // keyboard events:
             gamefield.visible = true
             gamefield.enabled = true
+            infobar.visible = true
             // 3. call the C++ method to start the game from the first
             // level and dynamically create the QML representation of
             // the game objects:
@@ -45,6 +46,12 @@ Window
         id: gamefield
     }
 
+    InfoBar
+    {
+        id: infobar
+        anchors.bottom: gamefield.bottom
+    }
+
     Connections // If player has passed all the levels or the game is over:
     {
         // ('void passed()' signal was emitted by 'CurrentGame' object)
@@ -55,15 +62,11 @@ Window
             // disable receiving of keyboard events:
             gamefield.visible = false
             gamefield.enabled = false
+            infobar.visible = false
             // 2. make the 'GameOverScreen' item visible and enable
             // receiving of mouse events:
             gameover.visible = true
             gameover.enabled = true
-            // 3. adjust the 'GameOverScreen' item (whether the game was won or
-            // failed):
-
-            // console.log(score)
-            // console.log(victory)
         }
     }
 
@@ -80,6 +83,7 @@ Window
             // receiving of mouse events:
             newgame.visible = true
             newgame.enabled = true
+            infobar.visible = false
         }
     }
 }

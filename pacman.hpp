@@ -20,6 +20,7 @@ public slots:
     void move(unsigned int target_direction);
     unsigned int get_x();
     unsigned int get_y();
+    unsigned int get_direction();
 
     // Function which allows Pacman to make a new movement
     // (since the possible number of 'void move(uint)' calls per second is

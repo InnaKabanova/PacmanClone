@@ -12,6 +12,7 @@ public:
     static GhostManager& get_singleton(std::shared_ptr<QQmlApplicationEngine> use_engine = nullptr);
     void set_state(unsigned int requested_level);
     void flush_state();
+    void detect_collision_ghosts(unsigned int pacman_x, unsigned int pacman_y);
 
 public slots:
     // Functions that modify ghosts' modes (behavior) during the game:
@@ -56,7 +57,6 @@ private:
     ~GhostManager();
     GhostManager(const GhostManager&) = delete;
     GhostManager& operator= (const GhostManager&) = delete;
-
 };
 
 #endif // GHOSTMANAGER_H

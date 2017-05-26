@@ -254,8 +254,6 @@ unsigned int RoomManager::check_tile(unsigned int& curr_x, unsigned int& curr_y,
 
                 if(eaten_pellets_num == total_pellets_num) // (if this pellet was the last one)
                     return 5;
-
-                break;
             }
         }
         return 0;
@@ -276,11 +274,11 @@ unsigned int RoomManager::check_tile(unsigned int& curr_x, unsigned int& curr_y,
 
                 if(eaten_pellets_num == total_pellets_num) // (if this pellet was the last one)
                     return 5;
-
-                break;
+                else
+                    return 2;
             }
         }
-        return 2;
+        return 0;
     }
 }
 

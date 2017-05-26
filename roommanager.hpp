@@ -27,6 +27,8 @@ public:
     // Function that provides ghosts with movement trajectories,
     // depending on the source tile, destination tile and maze objects:
     void get_path(std::stack<Position>& trajectory, Position& source, Position& destination);
+    bool is_valid(const Position& position);
+    double calculate_h(const Position& position, const Position& destination);
 
 signals:
     void ate(unsigned int points); // (updates the score if Pacman ate a pellet or energizer)
@@ -58,17 +60,12 @@ private:
     const unsigned int energizer_points = 50;
 
     // Data & functions used by 'get_path' function:
-    bool is_valid(const Position& position);
     bool is_destination(const Position &position, const Position& destination);
     std::vector<Position> find_valid_adjacent(const Position* position);
-    double calculate_h(const Position& position, const Position& destination);
     void trace_back_path(std::stack<Position>& trajectory, Position& from_destination);
 
     unsigned int maze_width;
     unsigned int maze_height;
-
-
-
 
 };
 

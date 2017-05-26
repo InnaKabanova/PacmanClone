@@ -1,5 +1,4 @@
 #include <QDebug>
-#include <cstdlib>
 #include "blinky.hpp"
 
 // #define BLINKY_DEBUG
@@ -57,6 +56,8 @@ const char* Blinky::get_name()
 
 Position Blinky::get_target_chasing()
 {
+    // Blinky’s target tile in 'Chase' mode is defined as Pacman's current tile:
+
     unsigned int pacman_x = Pacman::get_singleton().get_x();
     unsigned int pacman_y = Pacman::get_singleton().get_y();
 

@@ -9,9 +9,9 @@
 #include "ghostmanager.hpp"
 #include "roommanager.hpp"
 
-//#define CURRGAME_DEBUG
-#define SCORE_DEBUG
-#define LEVEL_DEBUG
+// #define CURRGAME_DEBUG
+// #define SCORE_DEBUG
+// #define LEVEL_DEBUG
 
 CurrentGame& CurrentGame::get_singleton()
 {
@@ -88,9 +88,25 @@ unsigned int CurrentGame::get_tilesize()
     return tile_size;
 }
 
+unsigned int CurrentGame::get_health()
+{
+    return health;
+}
+
+unsigned int CurrentGame::get_score()
+{
+    return score;
+}
+
+unsigned int CurrentGame::get_level()
+{
+    return current_level;
+}
+
 void CurrentGame::start_level()
 {
     current_level++;
+    emit updateLevel(current_level);
 
     // If player has passed all the game levels:
     if(current_level > levels_num)
@@ -121,6 +137,7 @@ void CurrentGame::start_level()
 void CurrentGame::try_again()
 {
     health--;
+    emit updateHealth(health);
 
     if(health == 0)
     {
@@ -156,6 +173,10 @@ void CurrentGame::flush_state()
     score = 0;
     health = 3;
 
+    emit updateLevel(current_level);
+    emit updateScore(score);
+    emit updateHealth(health);
+
     Pacman::get_singleton().flush_state();
     RoomManager::get_singleton().flush_state();
     GhostManager::get_singleton().flush_state();
@@ -164,6 +185,7 @@ void CurrentGame::flush_state()
 void CurrentGame::add_score(unsigned int gained)
 {
     score += gained;
+    emit updateScore(score);
 
     #ifdef SCORE_DEBUG
     qDebug() << "Score: " << score;

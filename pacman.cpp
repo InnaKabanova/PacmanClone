@@ -2,6 +2,7 @@
 #include "direction.hpp"
 #include "globalconfig.hpp"
 #include "roommanager.hpp"
+#include "ghostmanager.hpp"
 #include <QDebug>
 #include <QQuickWindow>
 #include <QQmlComponent>
@@ -88,7 +89,7 @@ void Pacman::set_state(unsigned int requested_level)
 
             // Max. speed: 11 tiles per second
             speed_limit = 91; // msec (1/11 sec)
-            energized_time = 10000;
+            energized_time = 5000;
 
             redraw();
             show();
@@ -102,7 +103,7 @@ void Pacman::set_state(unsigned int requested_level)
             direction = PacmanDirection::PAC_UP;
 
             speed_limit = 97; // msec (1/11 sec)
-            energized_time = 8000;
+            energized_time = 4000;
 
             redraw();
         }
@@ -179,11 +180,16 @@ void Pacman::move(unsigned int target_direction)
         y = target_y;
         direction = target_direction;
         redraw();
+
         move_allowed = false;
         QTimer::singleShot(speed_limit, this, SLOT(make_available_again()));
+
         if(result == 2)
+        {
             emit energized(energized_time);
-        if(result == 5)
+            GhostManager::get_singleton().detect_collision_ghosts(x, y);
+        }
+        else if(result == 5)
             emit ate_all();
     }
 }
@@ -201,6 +207,11 @@ unsigned int Pacman::get_x()
 unsigned int Pacman::get_y()
 {
     return y;
+}
+
+unsigned int Pacman::get_direction()
+{
+    return direction;
 }
 
 

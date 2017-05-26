@@ -7,7 +7,7 @@
 #include "clyde.hpp"
 
 // #define GHOSTMAN_DEBUG
-#define TIMER_DEBUG
+// #define TIMER_DEBUG
 
 using std::shared_ptr;
 
@@ -342,8 +342,10 @@ void GhostManager::update_timer()
 
 void GhostManager::update_score()
 {
-    // TO DO
-    emit ate_ghost(100000);
+    // TO DO (improvement): add 200 for every new ghost eaten
+    // within 1 'Frightened' mode
+
+    emit ate_ghost(200);
 }
 
 void GhostManager::restart()
@@ -351,7 +353,17 @@ void GhostManager::restart()
     emit life_lost();
 }
 
-
+void GhostManager::detect_collision_ghosts(unsigned int pacman_x, unsigned int pacman_y)
+{
+    for(Ghost* ghost: ghosts)
+    {
+        if(ghost->get_x() == pacman_x && ghost->get_y() == pacman_y)
+        {
+            update_score();
+            ghost->go_back_to_house();
+        }
+    }
+}
 
 
 
