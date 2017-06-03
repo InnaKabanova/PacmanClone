@@ -23,9 +23,8 @@ Item
         anchors.centerIn: parent
         button_bgrd_color: "black"
         button_text: "play game"
-        button_font: "Astron Boy"
+        button_font: "Helvetica"
         button_font_color: "lemonchiffon"
-        button_italic: true
         button_font_size: 40
         onClicked: parent.clicked()
     }

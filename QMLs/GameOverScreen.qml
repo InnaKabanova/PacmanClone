@@ -13,7 +13,7 @@ Item
     {
         id: result_gif
         visible: true
-        source: "qrc:/images/images/game-over.gif"
+        source: "qrc:/images/images/game-over-fail.gif"
 
         anchors.top: parent.top
         anchors.topMargin: Tile.tile_size * 1.5
@@ -31,9 +31,8 @@ Item
         anchors.horizontalCenter: result_gif.horizontalCenter
 
         text: "test"
-        font.family: "Astron Boy"
+        font.family: "Helvetica"
         font.pointSize: 40
-        font.italic: true
         color: "lemonchiffon"
     }
 
@@ -45,9 +44,8 @@ Item
 
         button_bgrd_color: "black"
         button_text: "go back"
-        button_font: "Astron Boy"
+        button_font: "Helvetica"
         button_font_color: "lemonchiffon"
-        button_italic: true
         button_font_size: 40
 
         onClicked: parent.clicked()
@@ -61,12 +59,12 @@ Item
             if(victory === true)
             {
                 result_text.text = "You won!"
-                result_gif.source = "qrc:/images/images/game-over.gif"
+                result_gif.source = "qrc:/images/images/game-over-victory.gif"
             }
             else if(victory === false)
             {
                 result_text.text = "You failed..."
-                result_gif.source = "qrc:/images/images/game-over-2.gif"
+                result_gif.source = "qrc:/images/images/game-over-fail.gif"
             }
         }
     }

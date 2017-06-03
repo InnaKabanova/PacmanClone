@@ -21,7 +21,6 @@
     <qresource prefix="/images">
         <file>images/background.png</file>
         <file>images/ghost-blinky.png</file>
-        <file>images/bonus-fruit-cherry.png</file>
         <file>images/ghost-clyde.png</file>
         <file>images/pellet-energizer.png</file>
         <file>images/pellet-regular.png</file>
@@ -30,10 +29,9 @@
         <file>images/ghost-pinky.png</file>
         <file>images/wall-block.png</file>
         <file>images/wall-exit.png</file>
-        <file>images/game-over.gif</file>
         <file>images/pacman.gif</file>
         <file>images/health.png</file>
-        <file>images/game-over-3.gif</file>
-        <file>images/game-over-2.gif</file>
+        <file>images/game-over-victory.gif</file>
+        <file>images/game-over-fail.gif</file>
     </qresource>
 </RCC>

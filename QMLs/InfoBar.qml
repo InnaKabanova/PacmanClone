@@ -9,16 +9,16 @@ Column {
     {
         Text {
             text: "score:"
-            font.family: "Astron Boy"
-            font.pointSize: 20
+            font.family: "Helvetica"
+            font.pointSize: 18
             color: "black"
         }
 
         Text {
             id: score_value
             text: current_game.get_score()
-            font.family: "Astron Boy"
-            font.pointSize: 20
+            font.family: "Helvetica"
+            font.pointSize: 18
             color: "darkblue"
         }
     }
@@ -34,8 +34,8 @@ Column {
         Text {
             id: health_value
             text: current_game.get_health()
-            font.family: "Astron Boy"
-            font.pointSize: 20
+            font.family: "Helvetica"
+            font.pointSize: 18
             color: "darkblue"
         }
     }
@@ -44,16 +44,16 @@ Column {
     {
         Text {
             text: "level:"
-            font.family: "Astron Boy"
-            font.pointSize: 20
+            font.family: "Helvetica"
+            font.pointSize: 18
             color: "black"
         }
 
         Text {
             id: level_value
             text: current_game.get_level()
-            font.family: "Astron Boy"
-            font.pointSize: 20
+            font.family: "Helvetica"
+            font.pointSize: 18
             color: "darkblue"
         }
     }
